@@ -19,7 +19,8 @@
     "build": "tsc",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write ."
   },
   "keywords": [
     "remark",
@@ -45,6 +46,7 @@
     "@types/node": "^20.10.0",
     "@types/unist": "^3.0.3",
     "@types/vfile": "^4.0.0",
+    "prettier": "^3.4.2",
     "typescript": "^5.3.0",
     "vfile": "^6.0.3",
     "vitest": "^1.0.0"

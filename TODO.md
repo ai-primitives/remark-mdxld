@@ -3,11 +3,13 @@
 ## Implementation
 
 - [ ] Implement core plugin functionality
+
   - [ ] YAML-LD frontmatter parsing
   - [ ] Support for @ and $ property prefixes
   - [ ] Property normalization ($type -> @type internally)
 
 - [ ] Plugin Integration
+
   - [ ] remark-mdx
   - [ ] remark-gfm
   - [ ] remark-frontmatter
@@ -21,6 +23,7 @@
 ## Documentation
 
 - [ ] API Documentation
+
   - [ ] Complete options documentation
   - [ ] TypeScript types
   - [ ] Usage examples

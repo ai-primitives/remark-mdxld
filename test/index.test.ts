@@ -94,15 +94,13 @@ description: A test document
         $type: 'https://mdx.org.ai/Document',
         frontmatter: {
           title: 'Test Document',
-          description: 'A test document'
-        }
+          description: 'A test document',
+        },
       })
     })
 
     it('should convert @ prefix to $ prefix when preferDollarPrefix is true', async () => {
-      const result = await createProcessor()
-        .use(remarkMdxld, { preferDollarPrefix: true })
-        .process(`---
+      const result = await createProcessor().use(remarkMdxld, { preferDollarPrefix: true }).process(`---
 "@type": https://mdx.org.ai/Document
 title: Test Document
 description: A test document
@@ -114,20 +112,22 @@ description: A test document
         $type: 'https://mdx.org.ai/Document',
         frontmatter: {
           title: 'Test Document',
-          description: 'A test document'
-        }
+          description: 'A test document',
+        },
       })
     })
 
     it('should throw error when required fields are missing', async () => {
       const processor = createProcessor().use(remarkMdxld)
 
-      await expect(processor.process(`---
+      await expect(
+        processor.process(`---
 title: Test Document
 ---
 
 # Content
-`)).rejects.toThrow('Missing required frontmatter fields')
+`),
+      ).rejects.toThrow('Missing required frontmatter fields')
     })
   })
 
@@ -149,15 +149,17 @@ keywords: [test, yaml]
         frontmatter: {
           title: 'Test Document',
           description: 'Test description',
-          keywords: ['test', 'yaml']
-        }
+          keywords: ['test', 'yaml'],
+        },
       })
     })
 
     it('should validate required fields', () => {
-      expect(() => parseYamlLd(`
+      expect(() =>
+        parseYamlLd(`
 title: Test
-`)).toThrow('Missing required frontmatter fields')
+`),
+      ).toThrow('Missing required frontmatter fields')
     })
   })
 
@@ -192,8 +194,8 @@ import { Component } from './components'
         $type: 'Document',
         frontmatter: {
           title: 'Test Document',
-          description: 'Test description'
-        }
+          description: 'Test description',
+        },
       })
     })
   })

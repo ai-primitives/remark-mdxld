@@ -30,9 +30,7 @@ const remarkMdxld: Plugin<[RemarkMdxldOptions?], Root> = (options = {}) => {
 
   return function transformer(tree: Root, file: VFile) {
     // Find and process YAML frontmatter
-    const yamlNode = tree.children.find((node): node is Node & { type: 'yaml', value: string } =>
-      node.type === 'yaml'
-    )
+    const yamlNode = tree.children.find((node): node is Node & { type: 'yaml'; value: string } => node.type === 'yaml')
 
     if (!yamlNode) {
       const error = new Error('Missing required frontmatter')

@@ -38,13 +38,9 @@ import remarkParse from 'remark-parse'
 import remarkMdx from 'remark-mdx'
 import remarkFrontmatter from 'remark-frontmatter'
 
-const processor = unified()
-  .use(remarkParse)
-  .use(remarkFrontmatter, ['yaml'])
-  .use(remarkMdx)
-  .use(remarkMdxld, {
-    preferDollarPrefix: true // Default: true
-  })
+const processor = unified().use(remarkParse).use(remarkFrontmatter, ['yaml']).use(remarkMdx).use(remarkMdxld, {
+  preferDollarPrefix: true, // Default: true
+})
 
 const result = await processor.process(`---
 $type: 'https://mdx.org.ai/Document'
@@ -79,9 +75,9 @@ const withMDX = createMDX({
   options: {
     remarkPlugins: [
       [remarkFrontmatter, ['yaml']],
-      [remarkMdxld, { preferDollarPrefix: true }]
-    ]
-  }
+      [remarkMdxld, { preferDollarPrefix: true }],
+    ],
+  },
 })
 
 export default withMDX({
@@ -103,10 +99,10 @@ export default defineConfig({
     mdx({
       remarkPlugins: [
         [remarkFrontmatter, ['yaml']],
-        [remarkMdxld, { preferDollarPrefix: true }]
-      ]
-    })
-  ]
+        [remarkMdxld, { preferDollarPrefix: true }],
+      ],
+    }),
+  ],
 })
 ```
 
@@ -126,10 +122,10 @@ await esbuild.build({
     mdx({
       remarkPlugins: [
         [remarkFrontmatter, ['yaml']],
-        [remarkMdxld, { preferDollarPrefix: true }]
-      ]
-    })
-  ]
+        [remarkMdxld, { preferDollarPrefix: true }],
+      ],
+    }),
+  ],
 })
 ```
 
@@ -173,6 +169,7 @@ Content with access to frontmatter data...
 ## Dependencies
 
 This plugin includes and depends on:
+
 - unified
 - remark-parse
 - remark-mdx

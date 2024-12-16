@@ -8,19 +8,13 @@ export interface YamlLdData {
 export function parseYamlLd(content: string, preferDollarPrefix: boolean = true): YamlLdData {
   const data = parse(content)
   const ldProperties: YamlLdData = {
-    frontmatter: {}
+    frontmatter: {},
   }
   const regularProperties: Record<string, any> = {}
 
   for (const [key, value] of Object.entries(data)) {
     if (key.startsWith('$') || key.startsWith('@')) {
-      const normalizedKey = preferDollarPrefix
-        ? key.startsWith('@')
-          ? '$' + key.slice(1)
-          : key
-        : key.startsWith('$')
-        ? '@' + key.slice(1)
-        : key
+      const normalizedKey = preferDollarPrefix ? (key.startsWith('@') ? '$' + key.slice(1) : key) : key.startsWith('$') ? '@' + key.slice(1) : key
       ldProperties[normalizedKey] = value
     } else {
       regularProperties[key] = value

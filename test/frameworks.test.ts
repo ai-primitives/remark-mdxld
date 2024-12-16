@@ -28,13 +28,7 @@ description: A test document
 
   describe('NextJS (@next/mdx)', () => {
     it('should work with NextJS MDX configuration', async () => {
-      const processor = unified()
-        .use(remarkParse)
-        .use(remarkFrontmatter, ['yaml'])
-        .use(remarkMdx)
-        .use(remarkGfm)
-        .use(remarkMdxld)
-        .use(remarkStringify)
+      const processor = unified().use(remarkParse).use(remarkFrontmatter, ['yaml']).use(remarkMdx).use(remarkGfm).use(remarkMdxld).use(remarkStringify)
 
       const result = await processor.process(mdxContent)
       const yamlLd = result.data.yamlLd as YamlLdData
@@ -42,8 +36,8 @@ description: A test document
         $type: 'https://mdx.org.ai/Document',
         frontmatter: {
           title: 'Test Document',
-          description: 'A test document'
-        }
+          description: 'A test document',
+        },
       })
     })
 
@@ -64,13 +58,7 @@ description: A test document
 
   describe('Vite (@mdx-js/rollup)', () => {
     it('should work with Vite MDX configuration', async () => {
-      const processor = unified()
-        .use(remarkParse)
-        .use(remarkFrontmatter, ['yaml'])
-        .use(remarkMdx)
-        .use(remarkGfm)
-        .use(remarkMdxld)
-        .use(remarkStringify)
+      const processor = unified().use(remarkParse).use(remarkFrontmatter, ['yaml']).use(remarkMdx).use(remarkGfm).use(remarkMdxld).use(remarkStringify)
 
       const result = await processor.process(mdxContent)
       const yamlLd = result.data.yamlLd as YamlLdData
@@ -79,13 +67,7 @@ description: A test document
     })
 
     it('should handle Vite specific options', async () => {
-      const processor = unified()
-        .use(remarkParse)
-        .use(remarkFrontmatter, ['yaml'])
-        .use(remarkMdx)
-        .use(remarkGfm)
-        .use(remarkMdxld)
-        .use(remarkStringify)
+      const processor = unified().use(remarkParse).use(remarkFrontmatter, ['yaml']).use(remarkMdx).use(remarkGfm).use(remarkMdxld).use(remarkStringify)
 
       const result = await processor.process(mdxContent)
       const yamlLd = result.data.yamlLd as YamlLdData
@@ -95,13 +77,7 @@ description: A test document
 
   describe('ESBuild (@mdx-js/esbuild)', () => {
     it('should work with ESBuild MDX configuration', async () => {
-      const processor = unified()
-        .use(remarkParse)
-        .use(remarkFrontmatter, ['yaml'])
-        .use(remarkMdx)
-        .use(remarkGfm)
-        .use(remarkMdxld)
-        .use(remarkStringify)
+      const processor = unified().use(remarkParse).use(remarkFrontmatter, ['yaml']).use(remarkMdx).use(remarkGfm).use(remarkMdxld).use(remarkStringify)
 
       const result = await processor.process(mdxContent)
       const yamlLd = result.data.yamlLd as YamlLdData
@@ -110,19 +86,13 @@ description: A test document
     })
 
     it('should handle ESBuild specific options', async () => {
-      const processor = unified()
-        .use(remarkParse)
-        .use(remarkFrontmatter, ['yaml'])
-        .use(remarkMdx)
-        .use(remarkGfm)
-        .use(remarkMdxld)
-        .use(remarkStringify)
+      const processor = unified().use(remarkParse).use(remarkFrontmatter, ['yaml']).use(remarkMdx).use(remarkGfm).use(remarkMdxld).use(remarkStringify)
 
       const result = await processor.process(mdxContent)
       const yamlLd = result.data.yamlLd as YamlLdData
       expect(yamlLd.frontmatter).toEqual({
         title: 'Test Document',
-        description: 'A test document'
+        description: 'A test document',
       })
     })
   })
