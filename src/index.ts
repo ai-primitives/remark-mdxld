@@ -6,7 +6,7 @@ import remarkMdx from 'remark-mdx'
 import remarkGfm from 'remark-gfm'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkParse from 'remark-parse'
-import remarkStringify from 'remark-stringify'
+import remarkStringify, { type Options as StringifyOptions } from 'remark-stringify'
 import { parseYamlLd, type YamlLdData } from './yaml-ld'
 
 interface RemarkMdxldOptions {
@@ -14,25 +14,60 @@ interface RemarkMdxldOptions {
   gfm?: boolean
 }
 
-// Create a preset function that returns a configured processor
+function disableGfm() {
+  return (tree: Root) => {
+    // Convert GFM syntax to plain text before parsing
+    const visit = (node: any): any => {
+      if (node.type === 'text' && typeof node.value === 'string') {
+        // Convert table syntax to plain text
+        node.value = node.value.replace(/\|.*\|/g, (match: string) => {
+          return match.replace(/\|/g, ' ');
+        });
+        // Convert task list syntax to plain text
+        node.value = node.value.replace(/^\s*[-*+]\s*\[[x ]\]/gmi, '-');
+      }
+      if (Array.isArray(node.children)) {
+        node.children = node.children.map(visit);
+      }
+      return node;
+    };
+    return visit(tree);
+  };
+}
+
 export function createProcessor(options: RemarkMdxldOptions = {}) {
   const { gfm = true } = options
-  return unified()
+  const stringifyOptions: StringifyOptions = {
+    listItemIndent: 'one',
+    bullet: '-',
+    ...(gfm ? {
+      rule: '-',
+      fence: '`',
+      fences: true,
+      incrementListMarker: true,
+    } : {
+      emphasis: '_',
+      strong: '*',
+      fence: '`',
+      fences: true,
+      table: false,
+      tablePipeAlign: false,
+      tableCellPadding: false
+    })
+  }
+
+  const processor = unified()
     .use(remarkParse)
     .use(remarkMdx)
     .use(remarkFrontmatter, ['yaml'])
-    .use(gfm ? remarkGfm : () => (tree: Root) => tree)
-    .use(remarkStringify, {
-      bullet: '-', // Use hyphen for list items
-      listItemIndent: '1',
-      ...(gfm ? {
-        bullet: '-',
-        rule: '-',
-        fence: '`',
-        fences: true,
-        incrementListMarker: true,
-      } : {})
-    })
+  
+  if (gfm) {
+    processor.use(remarkGfm)
+  } else {
+    processor.use(disableGfm)
+  }
+
+  return processor.use(remarkStringify, stringifyOptions)
 }
 
 const remarkMdxld: Plugin<[RemarkMdxldOptions?], Root> = (options = {}) => {
