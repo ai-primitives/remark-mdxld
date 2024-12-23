@@ -1,16 +1,18 @@
 import { parse } from 'yaml'
 
+type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue }
+
 export interface YamlLdData {
-  [key: string]: any
-  frontmatter: Record<string, any>
+  [key: string]: JsonValue
+  frontmatter: Record<string, JsonValue>
 }
 
 export function parseYamlLd(content: string, preferDollarPrefix: boolean = true): YamlLdData {
-  const data = parse(content)
+  const data = parse(content) as Record<string, JsonValue>
   const ldProperties: YamlLdData = {
     frontmatter: {},
   }
-  const regularProperties: Record<string, any> = {}
+  const regularProperties: Record<string, JsonValue> = {}
 
   for (const [key, value] of Object.entries(data)) {
     if (key.startsWith('$') || key.startsWith('@')) {

@@ -1,6 +1,6 @@
 import { Plugin } from 'unified'
 import { unified } from 'unified'
-import type { Root } from 'mdast'
+import type { Root, Node, Text } from 'mdast'
 import { VFile } from 'vfile'
 import remarkMdx from 'remark-mdx'
 import remarkGfm from 'remark-gfm'
@@ -14,25 +14,27 @@ interface RemarkMdxldOptions {
   gfm?: boolean
 }
 
-function disableGfm() {
-  return (tree: Root) => {
-    // Convert GFM syntax to plain text before parsing
-    const visit = (node: any): any => {
-      if (node.type === 'text' && typeof node.value === 'string') {
-        // Convert table syntax to plain text
-        node.value = node.value.replace(/\|.*\|/g, (match: string) => {
-          return match.replace(/\|/g, ' ');
-        });
-        // Convert task list syntax to plain text
-        node.value = node.value.replace(/^\s*[-*+]\s*\[[x ]\]/gmi, '-');
+function disableGfm(): Plugin<[], Root> {
+  return () => {
+    return function transformer(tree: Root) {
+      function visit(node: Node): void {
+        if (node.type === 'text') {
+          const textNode = node as Text;
+          // Convert table syntax to plain text
+          textNode.value = textNode.value.replace(/\|.*\|/g, (match: string) => {
+            return match.replace(/\|/g, ' ');
+          });
+          // Convert task list syntax to plain text
+          textNode.value = textNode.value.replace(/^\s*[-*+]\s*\[[x ]\]/gmi, '-');
+        }
+        if ('children' in node && Array.isArray(node.children)) {
+          node.children.forEach(child => visit(child));
+        }
       }
-      if (Array.isArray(node.children)) {
-        node.children = node.children.map(visit);
-      }
-      return node;
-    };
-    return visit(tree);
-  };
+      visit(tree);
+      return tree;
+    }
+  }
 }
 
 export function createProcessor(options: RemarkMdxldOptions = {}) {
@@ -64,7 +66,7 @@ export function createProcessor(options: RemarkMdxldOptions = {}) {
   if (gfm) {
     processor.use(remarkGfm)
   } else {
-    processor.use(disableGfm)
+    processor.use(disableGfm())
   }
 
   return processor.use(remarkStringify, stringifyOptions)
