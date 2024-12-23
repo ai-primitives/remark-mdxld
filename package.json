@@ -52,6 +52,7 @@
     "@types/node": "^20.10.0",
     "@types/unist": "^3.0.3",
     "@types/vfile": "^4.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.1",
     "eslint": "^9.17.0",
     "prettier": "^3.4.2",
     "remark-parse": "^11.0.0",
