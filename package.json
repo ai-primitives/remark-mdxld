@@ -1,6 +1,6 @@
 {
   "name": "remark-mdxld",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Remark plugin for MDX with integrated support for YAML and YAML-LD Frontmatter",
   "repository": {
     "type": "git",
@@ -32,11 +32,10 @@
   "author": "AI Primitives",
   "license": "MIT",
   "dependencies": {
-    "mdast": "^3.0.0",
+    "remark": "^15.0.1",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.0",
     "remark-mdx": "^3.1.0",
-    "remark-parse": "^11.0.0",
     "remark-stringify": "^11.0.0",
     "unified": "^11.0.5",
     "yaml": "^2.6.1"
@@ -47,6 +46,7 @@
     "@types/unist": "^3.0.3",
     "@types/vfile": "^4.0.0",
     "prettier": "^3.4.2",
+    "remark-parse": "^11.0.0",
     "typescript": "^5.3.0",
     "vfile": "^6.0.3",
     "vitest": "^1.0.0"

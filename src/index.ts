@@ -1,6 +1,6 @@
 import { Plugin } from 'unified'
 import { unified } from 'unified'
-import { Root, Node } from 'mdast'
+import type { Root } from 'mdast'
 import { VFile } from 'vfile'
 import remarkMdx from 'remark-mdx'
 import remarkGfm from 'remark-gfm'
@@ -22,7 +22,17 @@ export function createProcessor(options: RemarkMdxldOptions = {}) {
     .use(remarkMdx)
     .use(remarkFrontmatter, ['yaml'])
     .use(gfm ? remarkGfm : () => (tree: Root) => tree)
-    .use(remarkStringify)
+    .use(remarkStringify, {
+      bullet: '-', // Use hyphen for list items
+      listItemIndent: '1',
+      ...(gfm ? {
+        bullet: '-',
+        rule: '-',
+        fence: '`',
+        fences: true,
+        incrementListMarker: true,
+      } : {})
+    })
 }
 
 const remarkMdxld: Plugin<[RemarkMdxldOptions?], Root> = (options = {}) => {
@@ -30,7 +40,7 @@ const remarkMdxld: Plugin<[RemarkMdxldOptions?], Root> = (options = {}) => {
 
   return function transformer(tree: Root, file: VFile) {
     // Find and process YAML frontmatter
-    const yamlNode = tree.children.find((node): node is Node & { type: 'yaml'; value: string } => node.type === 'yaml')
+    const yamlNode = tree.children.find((node): node is Root['children'][number] & { type: 'yaml'; value: string } => node.type === 'yaml')
 
     if (!yamlNode) {
       const error = new Error('Missing required frontmatter')
