@@ -4,11 +4,11 @@
   "description": "Remark plugin for MDX with integrated support for YAML and YAML-LD Frontmatter",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ai-primitives/mdx.org.ai.git"
+    "url": "git+https://github.com/ai-primitives/remark-mdxld.git"
   },
   "homepage": "https://mdxld.org",
   "bugs": {
-    "url": "https://github.com/ai-primitives/mdx.org.ai/issues"
+    "url": "https://github.com/ai-primitives/remark-mdxld/issues"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
