@@ -7,7 +7,7 @@ import remarkGfm from 'remark-gfm'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkParse from 'remark-parse'
 import remarkStringify, { type Options as StringifyOptions } from 'remark-stringify'
-import { parseYamlLd, type YamlLdData } from './yaml-ld'
+import { parseYamlLd, type YamlLdData } from './yaml-ld.js'
 
 interface RemarkMdxldOptions {
   preferDollarPrefix?: boolean
